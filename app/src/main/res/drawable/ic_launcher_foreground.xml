@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 记账本图标：￥符号 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,28h24v4H56v4h7c5.5,0 10,4.5 10,10s-4.5,10 -10,10h-3l10,20h-7L54,56h-4v20h-4V56h-4c-5.5,0 -10,-4.5 -10,-10s4.5,-10 10,-10h7v-4h-6v-4zM46,40h-4c-3.3,0 -6,2.7 -6,6s2.7,6 6,6h16c3.3,0 6,-2.7 6,-6s-2.7,-6 -6,-6H46z" />
+</vector>

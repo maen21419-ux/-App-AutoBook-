@@ -1,0 +1,32 @@
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Gradle
+.gradle/
+build/
+app/build/
+
+# Local properties (may contain paths/keys)
+local.properties
+*.properties.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated
+captures/
+.externalNativeBuild
+.cxx
+
+# Signing
+*.keystore
+*.jks
+*.p12
+signing.properties
+
+# ProGuard
+app/proguard/
