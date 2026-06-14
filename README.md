@@ -19,6 +19,12 @@
 | 📤 **导出 CSV** | 一键导出 Excel 兼容的交易记录文件 |
 | 🔒 **隐私安全** | API Key 使用 Android Keystore + AES-256 加密存储，不上传服务器 |
 
+<img width="631" height="1360" alt="image" src="https://github.com/user-attachments/assets/3e088907-4572-4ca0-bf38-a2ee79b44663" />
+<img width="617" height="1353" alt="image" src="https://github.com/user-attachments/assets/b58dc3eb-8372-4a11-92e8-e0abf3651728" />
+<img width="612" height="1307" alt="image" src="https://github.com/user-attachments/assets/8442e339-66f3-47e3-96c4-bcbb7ef467b4" />
+
+
+
 ## 📱 下载
 
 > [⬇️ 下载最新 APK](https://github.com/maen21419-ux/-App-AutoBook-/releases/latest)
