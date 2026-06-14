@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.autobook.app.data.repository.TransactionRepo
 import com.autobook.app.domain.PrefsManager
+import com.autobook.app.service.BillAccessibilityService
 import com.autobook.app.service.NotificationListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -40,11 +41,18 @@ class SettingsViewModel @Inject constructor(
     private val _notificationPermissionGranted = MutableStateFlow(false)
     val notificationPermissionGranted: StateFlow<Boolean> = _notificationPermissionGranted
 
+    private val _accessibilityEnabled = MutableStateFlow(false)
+    val accessibilityEnabled: StateFlow<Boolean> = _accessibilityEnabled
+
+    private val _accessibilityPermissionGranted = MutableStateFlow(false)
+    val accessibilityPermissionGranted: StateFlow<Boolean> = _accessibilityPermissionGranted
+
     init {
         viewModelScope.launch {
             _smsEnabled.value = prefsManager.isSmsEnabled()
             _dedupWindowSec.value = prefsManager.getDedupWindowSec()
             _notificationEnabled.value = prefsManager.isNotificationEnabled()
+            _accessibilityEnabled.value = prefsManager.isAccessibilityEnabled()
         }
     }
 
@@ -78,6 +86,36 @@ class SettingsViewModel @Inject constructor(
     fun checkNotificationPermission(context: Context) {
         _notificationPermissionGranted.value =
             NotificationListener.isNotificationListenerEnabled(context)
+    }
+
+    /** 切换无障碍监听开关 */
+    fun toggleAccessibilityEnabled(context: Context) {
+        viewModelScope.launch {
+            val newValue = !_accessibilityEnabled.value
+            if (newValue) {
+                val hasPermission = BillAccessibilityService.isAccessibilityServiceEnabled(context)
+                _accessibilityPermissionGranted.value = hasPermission
+                if (!hasPermission) {
+                    Toast.makeText(
+                        context,
+                        "请先开启无障碍服务后再启用此功能",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    context.startActivity(
+                        Intent("android.settings.ACCESSIBILITY_SETTINGS")
+                    )
+                    return@launch
+                }
+            }
+            prefsManager.setAccessibilityEnabled(newValue)
+            _accessibilityEnabled.value = newValue
+        }
+    }
+
+    /** 刷新无障碍权限状态 */
+    fun checkAccessibilityPermission(context: Context) {
+        _accessibilityPermissionGranted.value =
+            BillAccessibilityService.isAccessibilityServiceEnabled(context)
     }
 
     fun setApiKey(key: String) {

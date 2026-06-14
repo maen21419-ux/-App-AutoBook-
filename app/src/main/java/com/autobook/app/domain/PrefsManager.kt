@@ -37,6 +37,7 @@ class PrefsManager @Inject constructor(
         // ── DataStore keys ──
         private val KEY_SMS_ENABLED = booleanPreferencesKey("sms_enabled")
         private val KEY_NOTIFICATION_ENABLED = booleanPreferencesKey("notification_enabled")
+        private val KEY_ACCESSIBILITY_ENABLED = booleanPreferencesKey("accessibility_enabled")
         private val KEY_FIRST_LAUNCH = booleanPreferencesKey("first_launch")
         private val KEY_DEDUP_WINDOW_SEC = intPreferencesKey("dedup_window_sec")
     }
@@ -119,6 +120,16 @@ class PrefsManager @Inject constructor(
 
     suspend fun setFirstLaunchDone() {
         context.dataStore.edit { prefs -> prefs[KEY_FIRST_LAUNCH] = false }
+    }
+
+    // ──── 无障碍监听 ────
+
+    suspend fun isAccessibilityEnabled(): Boolean {
+        return context.dataStore.data.first()[KEY_ACCESSIBILITY_ENABLED] ?: false
+    }
+
+    suspend fun setAccessibilityEnabled(enabled: Boolean) {
+        context.dataStore.edit { prefs -> prefs[KEY_ACCESSIBILITY_ENABLED] = enabled }
     }
 
     // ──── 去重窗口（秒）───

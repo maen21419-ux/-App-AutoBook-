@@ -33,6 +33,8 @@ fun SettingsScreen(
     val dedupWindow by viewModel.dedupWindowSec.collectAsStateWithLifecycle()
     val notificationEnabled by viewModel.notificationEnabled.collectAsStateWithLifecycle()
     val notificationPermissionGranted by viewModel.notificationPermissionGranted.collectAsStateWithLifecycle()
+    val accessibilityEnabled by viewModel.accessibilityEnabled.collectAsStateWithLifecycle()
+    val accessibilityPermissionGranted by viewModel.accessibilityPermissionGranted.collectAsStateWithLifecycle()
     var showApiKeyDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -42,6 +44,7 @@ fun SettingsScreen(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 viewModel.checkNotificationPermission(context)
+                viewModel.checkAccessibilityPermission(context)
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -150,6 +153,31 @@ fun SettingsScreen(
                         onCheckedChange = { viewModel.toggleNotificationEnabled(context) }
                     )
                 }
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.Accessibility, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text("界面识别监听", fontWeight = FontWeight.Medium)
+                        Text(
+                            if (accessibilityEnabled) "已开启 · 识别扫码付款结果页面"
+                            else "识别支付宝/微信扫码付款",
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = accessibilityEnabled,
+                        onCheckedChange = { viewModel.toggleAccessibilityEnabled(context) }
+                    )
+                }
             }
 
             // ──── 权限 ────
@@ -171,6 +199,14 @@ fun SettingsScreen(
                     subtitle = if (notificationPermissionGranted) "已授予" else "未授予 · 点击设置",
                     onClick = {
                         context.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
+                    }
+                )
+                SettingsItem(
+                    icon = Icons.Default.Accessibility,
+                    title = "无障碍服务权限",
+                    subtitle = if (accessibilityPermissionGranted) "已授予" else "未授予 · 点击设置",
+                    onClick = {
+                        context.startActivity(Intent("android.settings.ACCESSIBILITY_SETTINGS"))
                     }
                 )
                 SettingsItem(

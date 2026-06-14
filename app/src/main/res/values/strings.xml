@@ -4,4 +4,5 @@
     <string name="channel_sms">记账服务</string>
     <string name="notification_processing">正在处理交易信息…</string>
     <string name="notification_listener_description">用于自动识别支付宝和微信支付通知，实现自动记账</string>
+    <string name="accessibility_service_description">用于自动识别支付宝和微信的扫码付款结果页面，实现全场景自动记账</string>
 </resources>
